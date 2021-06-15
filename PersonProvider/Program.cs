@@ -1,0 +1,43 @@
+﻿using MassTransit;
+using System;
+using System.Threading;
+
+namespace PersonProvider
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var bus = Bus.Factory.CreateUsingRabbitMq(config =>
+            {
+                config.Host(new Uri("rabbitmq://localhost"), c =>
+                {
+                    c.Username("guest");
+                    c.Password("guest");
+                });
+
+                config.ReceiveEndpoint("PersonQueue", e =>
+                {
+                    //e.UseRawJsonSerializer();
+                });
+
+            });
+
+            bus.Start();
+
+            Console.WriteLine("Publishing message");
+
+            while (true)
+            {
+                bus.Publish(new Person { personId = Guid.NewGuid(), name = "Ali", lastname = "sadri", age = 27 });
+                Thread.Sleep(2000);
+            }
+
+
+
+            bus.Stop();
+
+            Console.ReadLine();
+        }
+    }
+}
