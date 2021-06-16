@@ -32,21 +32,21 @@ namespace PersonDataProcessor
 
 
 
-            var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
-            {
-                cfg.Host(new Uri($"rabbitmq://{rabbitMqConfig.Host}/"), h =>
-                {
-                    h.Username(rabbitMqConfig.Username);
-                    h.Password(rabbitMqConfig.Password);
-                });
+            //var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
+            //{
+            //    cfg.Host(new Uri($"rabbitmq://{rabbitMqConfig.Host}/"), h =>
+            //    {
+            //        h.Username(rabbitMqConfig.Username);
+            //        h.Password(rabbitMqConfig.Password);
+            //    });
 
-                cfg.ReceiveEndpoint( rabbitMqConfig.PersonAddedReceiveEndpoint, e =>
-                {
-                    e.Consumer<AddPersonConsumer>();
-                });
-            });
+            //    cfg.ReceiveEndpoint( rabbitMqConfig.PersonAddedReceiveEndpoint, e =>
+            //    {
+            //        e.Consumer<AddPersonConsumer>();
+            //    });
+            //});
 
-            await busControl.StartAsync();
+            //await busControl.StartAsync();
 
 
 
@@ -56,13 +56,13 @@ namespace PersonDataProcessor
 
                 //var person = await unitOfWork.PersonRepository.CreatePerson(new Model.Person { name = "ali", personId = Guid.NewGuid().ToString() });
                 //unitOfWork.commit();
-                
-                
-                
-                var person = await personService.SavePersonAsync(new Model.Person { name = "ali", personId = Guid.NewGuid().ToString() });
-                
-                
-                await personService.LoadPersonByIdAsync(person.Id);
+
+
+
+                //var person = await personService.SavePersonAsync(new Model.Person { name = "ali", personId = Guid.NewGuid().ToString() });
+
+
+                //await personService.LoadPersonByIdAsync(person.Id);
                 await Task.Delay(1000, stoppingToken);
             }
         }

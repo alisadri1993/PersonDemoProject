@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using PersonDataProcessor.Model;
 using PersonDataProcessor.Service;
 using System;
 using System.Collections.Generic;
@@ -9,14 +10,14 @@ using System.Web.Mvc;
 
 namespace PersonDataProcessor.Events
 {
-    public class AddPersonConsumer : IConsumer<IAddPerson>
+    public class AddPersonConsumer : IConsumer<Person>
     {
         
-        public async  Task Consume(ConsumeContext<IAddPerson> context)
+        public async  Task Consume(ConsumeContext<Person> context)
         {
             var personService = DependencyResolver.Current.GetService<IPersonService>();
 
-            IAddPerson person = context.Message;
+            var person = context.Message;
              await personService.SavePersonAsync(null);
         }
     }

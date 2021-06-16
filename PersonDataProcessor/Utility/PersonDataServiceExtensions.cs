@@ -37,6 +37,7 @@ namespace PersonDataProcessor.Utility
                     config.DBConfig.Endpoints.Add(new ServerEndPoint(AppSetting.RedisConfiguration.HostAddress, AppSetting.RedisConfiguration.Port));
                 });
             });
-        }
+
+            services.AddRabbitMqServices(hostContext,AppSetting.RabbitMqConfiguration);       }
     }
 }
