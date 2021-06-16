@@ -16,10 +16,10 @@ namespace PersonProvider
                     c.Password("guest");
                 });
 
-                config.ReceiveEndpoint("PersonQueue", e =>
-                {
-                    //e.UseRawJsonSerializer();
-                });
+                //config.ReceiveEndpoint("PersonQueue", e =>
+                //{
+                //    //e.UseRawJsonSerializer();
+                //});
 
             });
 
@@ -27,9 +27,15 @@ namespace PersonProvider
 
             Console.WriteLine("Publishing message");
 
+            var sendEndpoint =  bus.GetSendEndpoint(new Uri("rabbitmq://localhost//PersonAddedQueue")).Result;
+
+
+
+            var person = new Person { personId = Guid.NewGuid(), name = "Ali", lastname = "sadri", age = 27 };
+
             while (true)
             {
-                bus.Publish(new Person { personId = Guid.NewGuid(), name = "Ali", lastname = "sadri", age = 27 });
+                sendEndpoint.Send<Person>(person);
                 Thread.Sleep(2000);
             }
 

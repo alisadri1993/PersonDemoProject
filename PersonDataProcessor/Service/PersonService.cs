@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using PersonDataProcessor.DAL;
 using PersonDataProcessor.Model;
+using PersonDataProcessor.Utility.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +23,9 @@ namespace PersonDataProcessor.Service
             this.unitOfWork = unitOfWork;
             this.cachingProvider = cachingProvider;
         }
-        public async Task<Person> LoadPersonById(int personId)
+        public async Task<Person> LoadPersonByIdAsync(int personId)
         {
+
 
             Person person = (await cachingProvider.GetAsync<Person>(nameof(Person) + "_" + personId)).Value;
 
@@ -37,28 +39,24 @@ namespace PersonDataProcessor.Service
 
         }
 
-        public Task<ICollection<Person>> LoadPersons()
+        public Task<ICollection<Person>> LoadPersonsAsync()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<Person> SavePerson(Person person)
+        public async Task<Person> SavePersonAsync(Person person)
         {
-            try
-            {
-                _logger.LogWarning("this is warning {person}", person.ToString());
+            _logger.LogWarning(nameof(SavePersonAsync) + " started {person}", person.ToString());
 
-                var addedperson = await unitOfWork.PersonRepository.CreatePerson(person);
-                unitOfWork.commit();
-                cachingProvider.Set<Person>(nameof(Person) + "_" + addedperson.Id, person, TimeSpan.FromMinutes(1));
+            if (person.age < 13)
+                throw new DomainException("امکان افزودن افراد زیر 13 سال وجود ندارد", ExceptionCode.IvalidPersonAgeRange);
 
-                return addedperson;
-            }
-            catch (Exception ex)
-            {
+            var addedperson = await unitOfWork.PersonRepository.CreatePerson(person);
+            unitOfWork.commit();
+            cachingProvider.Set<Person>(nameof(Person) + "_" + addedperson.Id, person, TimeSpan.FromMinutes(1));
 
-                throw;
-            }
+            return addedperson;
+
 
             return null;
         }

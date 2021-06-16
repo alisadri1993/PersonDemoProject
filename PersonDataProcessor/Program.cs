@@ -40,40 +40,11 @@ namespace PersonDataProcessor
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+            .UseWindowsService()
             .UseSerilog()
-                .ConfigureServices((hostContext, services) =>
-                {
-                    Setting AppSetting = new Setting();
-                    var sqlConnection = hostContext.Configuration.GetSection("ConnectionStrings").GetValue<string>("DefaultConnectionString");
-                    var x = hostContext.Configuration.GetSection("RedisConfig");
-                    var section = hostContext.Configuration.GetSection(nameof(RedisConfig));
-                    AppSetting.RedisConfiguration = section.Get<RedisConfig>();
-
-                    services.Configure<Setting>(options =>
-                    {
-                        options.SqlConnectionString = sqlConnection;
-                        options.RedisConfiguration = AppSetting.RedisConfiguration;
-                    });
-                    //services.AddScoped<IDbTransaction,SqlDb>(AppSetting);
-                  
-                    //services.AddScoped<IPersonRepository, PersonRepository>();
-
-
-                    services.AddSingleton<IUnitOfWork, UnitOfWork>();
-                    services.AddSingleton<IPersonService, PersonService>();
-
-                    services.AddHostedService<Worker>();
-
-
-                    //services.AddMemoryCache();
-
-                    services.AddEasyCaching(options =>
-                    {
-                        options.UseRedis(config =>
-                        {
-                            config.DBConfig.Endpoints.Add(new ServerEndPoint(AppSetting.RedisConfiguration.HostAddress, AppSetting.RedisConfiguration.Port));
-                        });
-                    });
-                });
+             .ConfigureServices((hostContext, services) =>
+             {
+                 services.AddCustomeServices(hostContext);
+             });
     }
 }
