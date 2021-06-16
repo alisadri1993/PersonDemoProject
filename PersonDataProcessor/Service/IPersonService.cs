@@ -9,8 +9,8 @@ namespace PersonDataProcessor.Service
 {
     public interface IPersonService
     {
-        Task<Person> SavePerson();
-        Task<Person> LoadPersonById();
+        Task<Person> SavePerson(Person person);
+        Task<Person> LoadPersonById(int personId);
         Task<ICollection<Person>> LoadPersons();
     }
 }

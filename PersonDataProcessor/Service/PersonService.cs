@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using EasyCaching.Core;
+using Microsoft.Extensions.Logging;
 using PersonDataProcessor.DAL;
 using PersonDataProcessor.Model;
 using System;
@@ -11,17 +12,29 @@ namespace PersonDataProcessor.Service
 {
     public class PersonService : IPersonService
     {
-        private readonly ILogger<PersonService> logger;
+        private readonly ILogger<PersonService> _logger;
         private readonly IUnitOfWork unitOfWork;
+        private readonly IEasyCachingProvider cachingProvider;
 
-        public PersonService(ILogger<PersonService> logger, IUnitOfWork unitOfWork)
+        public PersonService(ILogger<PersonService> logger, IUnitOfWork unitOfWork, IEasyCachingProvider cachingProvider)
         {
-            this.logger = logger;
+            this._logger = logger;
             this.unitOfWork = unitOfWork;
+            this.cachingProvider = cachingProvider;
         }
-        public Task<Person> LoadPersonById()
+        public async Task<Person> LoadPersonById(int personId)
         {
-            throw new NotImplementedException();
+
+            Person person = (await cachingProvider.GetAsync<Person>(nameof(Person) + "_" + personId)).Value;
+
+            if (person is null)
+            {
+                person = await unitOfWork.PersonRepository
+                                         .GetPersonById(personId);
+            }
+
+            return person;
+
         }
 
         public Task<ICollection<Person>> LoadPersons()
@@ -29,9 +42,25 @@ namespace PersonDataProcessor.Service
             throw new NotImplementedException();
         }
 
-        public Task<Person> SavePerson()
+        public async Task<Person> SavePerson(Person person)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _logger.LogWarning("this is warning {person}", person.ToString());
+
+                var addedperson = await unitOfWork.PersonRepository.CreatePerson(person);
+                unitOfWork.commit();
+                cachingProvider.Set<Person>(nameof(Person) + "_" + addedperson.Id, person, TimeSpan.FromMinutes(1));
+
+                return addedperson;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+            return null;
         }
     }
 }

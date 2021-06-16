@@ -3,12 +3,14 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PersonDataProcessor.Model
 {
     [Table("dbo.Persons")]
+    [Serializable]
     public class Person
     {
         [Key]

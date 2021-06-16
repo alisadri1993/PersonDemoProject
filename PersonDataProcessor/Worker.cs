@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PersonDataProcessor.DAL;
+using PersonDataProcessor.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,12 @@ namespace PersonDataProcessor
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
-        private readonly IUnitOfWork unitOfWork;
+        private readonly IPersonService personService;
 
-        public Worker(ILogger<Worker> logger, IUnitOfWork unitOfWork)
+        public Worker(ILogger<Worker> logger, IPersonService personService)
         {
             _logger = logger;
-            this.unitOfWork = unitOfWork;
+            this.personService = personService;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -26,13 +27,16 @@ namespace PersonDataProcessor
             {
                 _logger.LogInformation("Worker running at: {time}", "");
 
-                var person = await unitOfWork.PersonRepository.CreatePerson(new Model.Person { name = "ali", personId = Guid.NewGuid().ToString() });
-                unitOfWork.commit();
+                //var person = await unitOfWork.PersonRepository.CreatePerson(new Model.Person { name = "ali", personId = Guid.NewGuid().ToString() });
+                //unitOfWork.commit();
+                
+                
+                
+                var person = await personService.SavePerson(new Model.Person { name = "ali", personId = Guid.NewGuid().ToString() });
+                
+                
+                await personService.LoadPersonById(person.Id);
 
-
-                _logger.LogWarning("this is warning {person}", person.ToString());
-
-                var person2 = await unitOfWork.PersonRepository.GetPersonById(person.Id);
 
 
 

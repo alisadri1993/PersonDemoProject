@@ -9,6 +9,12 @@ namespace PersonDataProcessor.Utility
     public class Setting
     {
         public string SqlConnectionString { get; set; }
-        public string RedisConnectionString { get; set; }
+        public RedisConfig RedisConfiguration { get; set; }
+    }
+
+    public class RedisConfig
+    {
+        public string HostAddress { get; set; }
+        public int Port { get; set; }
     }
 }
