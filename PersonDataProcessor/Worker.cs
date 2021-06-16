@@ -24,13 +24,18 @@ namespace PersonDataProcessor
         {
             while (!stoppingToken.IsCancellationRequested)
             {
+                _logger.LogInformation("Worker running at: {time}", "");
 
-              var person =  await unitOfWork.PersonRepository.CreatePerson(new Model.Person { name="ali", personId = Guid.NewGuid().ToString()});
-              unitOfWork.commit();
+                var person = await unitOfWork.PersonRepository.CreatePerson(new Model.Person { name = "ali", personId = Guid.NewGuid().ToString() });
+                unitOfWork.commit();
 
-              var person2 =  await unitOfWork.PersonRepository.GetPersonById(person.Id);
 
-              //_logger.LogInformation("Worker running at: {time}", person2.ToString());
+                _logger.LogWarning("this is warning {person}", person.ToString());
+
+                var person2 = await unitOfWork.PersonRepository.GetPersonById(person.Id);
+
+
+
                 await Task.Delay(1000, stoppingToken);
             }
         }

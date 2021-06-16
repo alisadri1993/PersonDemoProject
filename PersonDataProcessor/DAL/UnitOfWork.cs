@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using PersonDataProcessor.DAL.Repositories;
 using PersonDataProcessor.Utility;
 using System;
@@ -16,13 +17,15 @@ namespace PersonDataProcessor.DAL
         private IPersonRepository _personRepository;
         private bool _disposed;
         private readonly Setting setting;
+        private readonly ILogger<UnitOfWork> logger;
 
-        public UnitOfWork(IOptions<Setting> setting)
+        public UnitOfWork(IOptions<Setting> setting, ILogger<UnitOfWork> logger)
         {
             this.setting = setting.Value;
             _connection = new SqlConnection(setting.Value.SqlConnectionString);
             _connection.Open();
             _transaction = _connection.BeginTransaction();
+            this.logger = logger;
         }
 
         public IPersonRepository PersonRepository
