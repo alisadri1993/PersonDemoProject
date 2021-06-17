@@ -25,13 +25,14 @@ namespace PersonDataProcessor.Events
         {
             foreach (var exception in context.Message.Exceptions)
             {
-                if (exception is DomainException)
+                if (exception.ExceptionType.Equals(typeof(DomainException).FullName))
                 {
-                    logger.LogError($"Domain Exception Occurred! \n {exception}");
+                    logger.LogError($"Domain Exception Occurred!  {exception.Message}");
                 }
                 else
                 {
-                    logger.LogCritical($"Some Issue Occurred ! \n {exception}");
+                    logger.LogCritical($"Some Issue Occurred !  {exception.Message}");
+                    //send notif
                 }
             }
 

@@ -31,12 +31,12 @@ namespace PersonProvider
             {
                 name = "Ali",
                 lastname = "sadri",
-                age = 14 
-                //age = new Random().Next(20) 
+                //age = 14
             };
 
             while (true)
             {
+                person.age = new Random().Next(20);
                 sendEndpoint.Send<PersonData>(person);
                 Thread.Sleep(10000);
             }

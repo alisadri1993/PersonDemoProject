@@ -6,6 +6,7 @@ using PersonDataProcessor.DAL;
 using PersonDataProcessor.DAL.Repositories;
 using PersonDataProcessor.Service;
 using PersonDataProcessor.Utility;
+using PersonDataProcessor.Utility.Exceptions;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,7 @@ namespace PersonDataProcessor
 
                 Log.Logger = new LoggerConfiguration()
                     .ReadFrom.Configuration(configuration)
+                    .Enrich.With<ExceptionEnricher>()
                     .CreateLogger();
 
                 CreateHostBuilder(args).Build().Run();

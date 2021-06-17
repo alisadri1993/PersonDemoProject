@@ -1,5 +1,7 @@
 ﻿using Dapper;
 using Dapper.Contrib.Extensions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using PersonDataProcessor.Model;
 using System;
 using System.Collections.Generic;
@@ -12,9 +14,11 @@ namespace PersonDataProcessor.DAL.Repositories
 {
     public class PersonRepository : RepositoryBase, IPersonRepository
     {
+        private readonly ILogger<PersonRepository> logger;
         public PersonRepository(IDbTransaction transaction)
           : base(transaction)
         {
+            
         }
         public Person CreatePerson(Person person)
         {
