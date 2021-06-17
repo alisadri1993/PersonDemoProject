@@ -1,4 +1,5 @@
-﻿using PersonDataProcessor.Model;
+﻿using Contract;
+using PersonDataProcessor.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace PersonDataProcessor.Service
 {
     public interface IPersonService
     {
-        Task<Person> SavePersonAsync(Person person);
-        Task<Person> LoadPersonByIdAsync(int personId);
-        Task<ICollection<Person>> LoadPersonsAsync();
+        PersonData SavePerson(PersonData person);
+        PersonData LoadPersonById(int personId);
+        ICollection<PersonData> LoadPersons();
     }
 }

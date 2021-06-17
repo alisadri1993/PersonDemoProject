@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace PersonProvider
+namespace Contract
 {
-    public interface IPersonEvent
+    public class PersonData
     {
-        public DateTime date { get; }
         public string name { get; set; }
         public string lastname { get; set; }
         public int age { get; set; }

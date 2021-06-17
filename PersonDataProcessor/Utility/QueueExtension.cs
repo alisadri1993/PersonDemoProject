@@ -20,7 +20,7 @@ namespace PersonDataProcessor.Utility
                                                             , HostBuilderContext context,
                                                               RabbitMqConfig queueSettings)
         {
-            
+
 
             services.AddMassTransit(c =>
             {
@@ -29,17 +29,14 @@ namespace PersonDataProcessor.Utility
 
             services.AddSingleton(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
             {
-                cfg.Host(queueSettings.Host, h => {
+                cfg.Host(queueSettings.Host, h =>
+                {
                     h.Username(queueSettings.Username);
                     h.Password(queueSettings.Password);
                 });
-                //cfg.ConfigureConsumer<PersonAddedCons/*u*/mer>();
-                //cfg.SetLoggerFactory(provider.GetService<ILoggerFactory>());
-
             }));
 
-            services.AddMassTransitHostedService(true);
-
+            services.AddMassTransitHostedService();
             return services;
         }
     }

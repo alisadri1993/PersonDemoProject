@@ -25,8 +25,8 @@ namespace PersonDataProcessor.Utility
             });
 
 
-            services.AddSingleton<IUnitOfWork, UnitOfWork>();
-            services.AddSingleton<IPersonService, PersonService>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IPersonService, PersonService>();
 
             services.AddHostedService<Worker>();
 
@@ -39,6 +39,8 @@ namespace PersonDataProcessor.Utility
             });
 
             services.RegisterQueueServices(hostContext, AppSetting.RabbitMqConfiguration);
+
+            services.AddAutoMapper(typeof(Program));
         }
     }
 }

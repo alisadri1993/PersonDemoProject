@@ -19,30 +19,48 @@ namespace PersonDataProcessor
         private readonly IServiceProvider serviceProvider;
         private readonly ILogger<Worker> _logger;
         private readonly IBusControl _busControl;
-        private readonly IPersonService personService;
         private readonly RabbitMqConfig rabbitMqConfig;
 
-        public Worker(IServiceProvider serviceProvider, ILogger<Worker> logger, IBusControl busControl, IPersonService personService, IOptions<Setting> setting)
+        public Worker(IServiceProvider serviceProvider,
+                      ILogger<Worker> logger,
+                      IBusControl busControl,
+                      IOptions<Setting> setting)
         {
             this.serviceProvider = serviceProvider;
             _logger = logger;
             this._busControl = busControl;
-            this.personService = personService;
             this.rabbitMqConfig = setting.Value.RabbitMqConfiguration;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-
-
-            var personAddedEventHandler = _busControl.ConnectReceiveEndpoint(rabbitMqConfig.PersonAddedReceiveEndpoint, x =>
+            var personAddedEventHandler =
+                            _busControl.ConnectReceiveEndpoint(
+                            rabbitMqConfig.PersonAddedReceiveEndpoint, x =>
             {
-                x.Consumer<PersonAddedConsumer>();
+                x.Consumer<PersonAddedConsumer>(serviceProvider);
+                x.PrefetchCount = rabbitMqConfig.PrefetchCount;
             });
 
 
             await personAddedEventHandler.Ready;
 
+
+            //var bus = Bus.Factory.CreateUsingRabbitMq(sbc =>
+            //{
+            //    sbc.Host(rabbitMqConfig.Host, h => 
+            //    {
+            //        h.Username(rabbitMqConfig.Username);
+            //        h.Password(rabbitMqConfig.Password);
+            //    });
+
+            //    sbc.ReceiveEndpoint(rabbitMqConfig.PersonAddedReceiveEndpoint, e => 
+            //    {
+            //        e.Consumer<PersonAddedConsumer>(serviceProvider);
+            //    });
+            //});
+
+            //bus.Start();
 
             while (!stoppingToken.IsCancellationRequested)
             {
@@ -51,6 +69,8 @@ namespace PersonDataProcessor
 
                 await Task.Delay(1000, stoppingToken);
             }
+
+            //bus.Stop();
         }
     }
 }

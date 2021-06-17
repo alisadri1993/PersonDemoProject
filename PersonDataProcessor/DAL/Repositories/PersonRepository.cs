@@ -16,12 +16,12 @@ namespace PersonDataProcessor.DAL.Repositories
           : base(transaction)
         {
         }
-        public async Task<Person> CreatePerson(Person person)
+        public Person CreatePerson(Person person)
         {
             try
             {
-                person.id = await Connection.ExecuteScalarAsync<int>(
-                    "INSERT INTO Persons(name, lastname,age) VALUES(@personId,@name,@lastname,@age); SELECT SCOPE_IDENTITY()",
+                person.id = Connection.ExecuteScalar<int>(
+                    "INSERT INTO Persons(name, lastname,age) VALUES(@name,@lastname,@age); SELECT SCOPE_IDENTITY()",
                     param: new { name = person.name, lastname = person.lastname, age = person.age },
                     transaction: Transaction
                     );
@@ -36,17 +36,17 @@ namespace PersonDataProcessor.DAL.Repositories
             }
         }
 
-        public async Task<Person> GetPersonById(int personId)
+        public Person GetPersonById(int personId)
         {
             try
             {
-                var person = await Connection.QueryAsync<Person>(
+                var person =  Connection.Query<Person>(
                               "SELECT * FROM Persons WHERE id = @id",
                               param: new { id = personId },
                               transaction: Transaction
-                          );
+                          ).FirstOrDefault();
 
-                return person.FirstOrDefault();
+                return person;
             }
             catch (Exception ex)
             {
@@ -55,17 +55,17 @@ namespace PersonDataProcessor.DAL.Repositories
             }
         }
 
-        public Task<ICollection<Person>> GetPersons()
+        public ICollection<Person> GetPersons()
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> RemovePersonById(int personId)
+        public bool RemovePersonById(int personId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Person> UpdatePerson(int personId, Person person)
+        public Person UpdatePerson(int personId, Person person)
         {
             throw new NotImplementedException();
         }

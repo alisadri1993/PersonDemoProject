@@ -23,6 +23,7 @@ namespace PersonDataProcessor.Utility
         public string Host { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public int PrefetchCount { get; set; }
         public string PersonAddedReceiveEndpoint { get; set; }
     }
 }

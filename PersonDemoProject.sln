@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersonProvider", "PersonPro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersonDataProcessor", "PersonDataProcessor\PersonDataProcessor.csproj", "{19AB8914-1FC3-4318-8F00-5E9801C22722}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonConsumer", "PersonConsumer\PersonConsumer.csproj", "{188DAEDC-AD29-4813-9A73-2E5087326688}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contract", "Contract\Contract.csproj", "{134A9348-B40E-456D-9B64-CBA3664BDB2F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataBaseScript", "DataBaseScript", "{C005598F-B9CC-4A21-A725-75BD527EA349}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\Documents\PersonDB.sql = ..\..\..\Documents\PersonDB.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +28,10 @@ Global
 		{19AB8914-1FC3-4318-8F00-5E9801C22722}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19AB8914-1FC3-4318-8F00-5E9801C22722}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19AB8914-1FC3-4318-8F00-5E9801C22722}.Release|Any CPU.Build.0 = Release|Any CPU
-		{188DAEDC-AD29-4813-9A73-2E5087326688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{188DAEDC-AD29-4813-9A73-2E5087326688}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{188DAEDC-AD29-4813-9A73-2E5087326688}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{188DAEDC-AD29-4813-9A73-2E5087326688}.Release|Any CPU.Build.0 = Release|Any CPU
+		{134A9348-B40E-456D-9B64-CBA3664BDB2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{134A9348-B40E-456D-9B64-CBA3664BDB2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{134A9348-B40E-456D-9B64-CBA3664BDB2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{134A9348-B40E-456D-9B64-CBA3664BDB2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

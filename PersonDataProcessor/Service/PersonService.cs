@@ -1,4 +1,6 @@
-﻿using EasyCaching.Core;
+﻿using AutoMapper;
+using Contract;
+using EasyCaching.Core;
 using Microsoft.Extensions.Logging;
 using PersonDataProcessor.DAL;
 using PersonDataProcessor.Model;
@@ -16,49 +18,48 @@ namespace PersonDataProcessor.Service
         private readonly ILogger<PersonService> _logger;
         private readonly IUnitOfWork unitOfWork;
         private readonly IEasyCachingProvider cachingProvider;
+        private readonly IMapper mapper;
 
-        public PersonService(ILogger<PersonService> logger, IUnitOfWork unitOfWork, IEasyCachingProvider cachingProvider)
+        public PersonService(ILogger<PersonService> logger,
+                             IUnitOfWork unitOfWork,
+                             IEasyCachingProvider cachingProvider,
+                             IMapper mapper)
         {
             this._logger = logger;
             this.unitOfWork = unitOfWork;
             this.cachingProvider = cachingProvider;
+            this.mapper = mapper;
         }
-        public async Task<Person> LoadPersonByIdAsync(int personId)
+     
+        public PersonData LoadPersonById(int personId)
         {
-
-
-            Person person = (await cachingProvider.GetAsync<Person>(nameof(Person) + "_" + personId)).Value;
-
+            Person person = cachingProvider.Get<Person>(nameof(Person) + "_" + personId).Value;
             if (person is null)
             {
-                person = await unitOfWork.PersonRepository
+                person =  unitOfWork.PersonRepository
                                          .GetPersonById(personId);
             }
-
-            return person;
-
+            return mapper.Map<PersonData>(person);
         }
-
-        public Task<ICollection<Person>> LoadPersonsAsync()
+      
+        public PersonData SavePerson(PersonData personDto)
         {
-            throw new NotImplementedException();
-        }
 
-        public async Task<Person> SavePersonAsync(Person person)
-        {
-            _logger.LogWarning(nameof(SavePersonAsync) + " started {person}", person.ToString());
+            Person person = mapper.Map<Person>(personDto);
+            _logger.LogWarning(nameof(SavePerson) + " started {person}", person.ToString());
 
             if (person.age < 13)
                 throw new DomainException("امکان افزودن افراد زیر 13 سال وجود ندارد", ExceptionCode.IvalidPersonAgeRange);
 
-            var addedperson = await unitOfWork.PersonRepository.CreatePerson(person);
+            var addedperson =  unitOfWork.PersonRepository.CreatePerson(person);
             unitOfWork.commit();
             cachingProvider.Set<Person>(nameof(Person) + "_" + addedperson.id, person, TimeSpan.FromMinutes(1));
+            return mapper.Map<PersonData>(addedperson);
+        }
 
-            return addedperson;
-
-
-            return null;
+        public ICollection<PersonData> LoadPersons()
+        {
+            throw new NotImplementedException();
         }
     }
 }
