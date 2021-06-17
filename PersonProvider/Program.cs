@@ -27,7 +27,13 @@ namespace PersonProvider
 
 
 
-            var person = new PersonData { name = "Ali", lastname = "sadri", age = 27 };
+            var person = new PersonData 
+            {
+                name = "Ali",
+                lastname = "sadri",
+                age = 14 
+                //age = new Random().Next(20) 
+            };
 
             while (true)
             {

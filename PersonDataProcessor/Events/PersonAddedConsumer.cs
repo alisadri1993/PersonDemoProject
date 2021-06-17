@@ -15,7 +15,9 @@ namespace PersonDataProcessor.Events
         private readonly IPersonService personService;
         private readonly ILogger<PersonAddedConsumer> logger;
 
-        public PersonAddedConsumer(IServiceProvider serviceProvider, IPersonService personService,  ILogger<PersonAddedConsumer> logger)
+        public PersonAddedConsumer(IServiceProvider serviceProvider,
+                                   IPersonService personService,
+                                   ILogger<PersonAddedConsumer> logger)
         {
             this.serviceProvider = serviceProvider;
             this.logger = logger;

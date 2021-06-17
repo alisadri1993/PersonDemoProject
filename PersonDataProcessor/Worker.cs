@@ -39,6 +39,7 @@ namespace PersonDataProcessor
                             rabbitMqConfig.PersonAddedReceiveEndpoint, x =>
             {
                 x.Consumer<PersonAddedConsumer>(serviceProvider);
+                x.Consumer<PersonAddedFaultConsumer>(serviceProvider);
                 x.PrefetchCount = rabbitMqConfig.PrefetchCount;
             });
 

@@ -25,6 +25,7 @@ namespace PersonDataProcessor.Utility
             services.AddMassTransit(c =>
             {
                 c.AddConsumer<PersonAddedConsumer>();
+                c.AddConsumer<PersonAddedFaultConsumer>();
             });
 
             services.AddSingleton(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
