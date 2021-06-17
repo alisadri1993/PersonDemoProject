@@ -2,11 +2,13 @@
 
 namespace PersonProvider
 {
-    public class Person
+    public class Person:IPersonEvent
     {
-        public Guid personId { get; set; }
+        public int id { get; set; }
         public string name { get; set; }
         public string lastname { get; set; }
         public int age { get; set; }
+
+        public DateTime date => DateTime.Now;
     }
 }

@@ -38,6 +38,7 @@ namespace PersonDataProcessor.Utility
                 });
             });
 
-            services.AddRabbitMqServices(hostContext,AppSetting.RabbitMqConfiguration);       }
+            services.RegisterQueueServices(hostContext, AppSetting.RabbitMqConfiguration);
+        }
     }
 }

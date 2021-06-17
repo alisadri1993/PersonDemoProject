@@ -20,9 +20,9 @@ namespace PersonDataProcessor.DAL.Repositories
         {
             try
             {
-                person.Id = await Connection.ExecuteScalarAsync<int>(
-                    "INSERT INTO Persons(personId,name, lastname,age) VALUES(@personId,@name,@lastname,@age); SELECT SCOPE_IDENTITY()",
-                    param: new { personId = person.personId, name = person.name, lastname = person.lastname, age = person.age },
+                person.id = await Connection.ExecuteScalarAsync<int>(
+                    "INSERT INTO Persons(name, lastname,age) VALUES(@personId,@name,@lastname,@age); SELECT SCOPE_IDENTITY()",
+                    param: new { name = person.name, lastname = person.lastname, age = person.age },
                     transaction: Transaction
                     );
 

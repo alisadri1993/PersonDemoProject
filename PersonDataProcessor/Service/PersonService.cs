@@ -53,7 +53,7 @@ namespace PersonDataProcessor.Service
 
             var addedperson = await unitOfWork.PersonRepository.CreatePerson(person);
             unitOfWork.commit();
-            cachingProvider.Set<Person>(nameof(Person) + "_" + addedperson.Id, person, TimeSpan.FromMinutes(1));
+            cachingProvider.Set<Person>(nameof(Person) + "_" + addedperson.id, person, TimeSpan.FromMinutes(1));
 
             return addedperson;
 

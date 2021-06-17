@@ -16,11 +16,6 @@ namespace PersonProvider
                     c.Password("guest");
                 });
 
-                //config.ReceiveEndpoint("PersonQueue", e =>
-                //{
-                //    //e.UseRawJsonSerializer();
-                //});
-
             });
 
             bus.Start();
@@ -31,7 +26,7 @@ namespace PersonProvider
 
 
 
-            var person = new Person { personId = Guid.NewGuid(), name = "Ali", lastname = "sadri", age = 27 };
+            var person = new Person {  name = "Ali", lastname = "sadri", age = 27 };
 
             while (true)
             {
