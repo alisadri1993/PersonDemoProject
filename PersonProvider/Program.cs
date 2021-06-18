@@ -38,7 +38,7 @@ namespace PersonProvider
             {
                 person.age = new Random().Next(20);
                 sendEndpoint.Send<PersonData>(person);
-                Thread.Sleep(10000);
+                Thread.Sleep(5000);
             }
 
 

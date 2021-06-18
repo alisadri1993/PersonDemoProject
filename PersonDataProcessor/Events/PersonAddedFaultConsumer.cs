@@ -1,7 +1,9 @@
 ﻿using Contract;
 using MassTransit;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using PersonDataProcessor.Utility.Exceptions;
+using Serilog.Core;
 using System;
 using System.Threading.Tasks;
 
@@ -24,11 +26,12 @@ namespace PersonDataProcessor.Events
             {
                 if (exception.ExceptionType.Equals(typeof(DomainException).FullName))
                 {
-                    logger.LogError($"Domain Exception Occurred!  {exception.Message}");
+                    logger.LogError("Domain Exception Occurred!  exception ==>", exception.Message);
+                    logger.LogInformation(nameof(PersonAddedFaultConsumer) + "{test} dddd {@exception} ", "test", JsonConvert.SerializeObject(exception));
                 }
                 else
                 {
-                    logger.LogCritical($"Some Issue Occurred !  {exception.Message}");
+                    logger.LogCritical($"Some Issue Occurred ! ", exception.Message);
                     //send notif
                 }
             }

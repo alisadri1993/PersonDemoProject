@@ -24,7 +24,6 @@ namespace PersonDataProcessor.Events
 
         public async Task Consume(ConsumeContext<PersonData> context)
         {
-
             logger.LogTrace($"person data recieaved to consumer ==> {context.Message}");
             PersonData personData = context.Message;
             personData = personService.SavePerson(personData);

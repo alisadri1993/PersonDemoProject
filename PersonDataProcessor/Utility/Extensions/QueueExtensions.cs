@@ -12,9 +12,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PersonDataProcessor.Utility
+namespace PersonDataProcessor.Utility.Extensions
 {
-    public static class QueueExtension
+    public static class QueueExtensions
     {
         public static IServiceCollection RegisterQueueServices(this IServiceCollection services
                                                             , HostBuilderContext context,

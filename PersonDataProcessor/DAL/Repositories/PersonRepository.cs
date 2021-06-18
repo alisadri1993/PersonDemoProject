@@ -3,6 +3,7 @@ using Dapper.Contrib.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using PersonDataProcessor.Model;
+using PersonDataProcessor.Utility.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -18,45 +19,33 @@ namespace PersonDataProcessor.DAL.Repositories
         public PersonRepository(IDbTransaction transaction)
           : base(transaction)
         {
-            
+            logger = ServiceLocator.Current.GetInstance<ILogger<PersonRepository>>();
         }
         public Person CreatePerson(Person person)
         {
-            try
-            {
-                person.id = Connection.ExecuteScalar<int>(
-                    "INSERT INTO Persons(name, lastname,age) VALUES(@name,@lastname,@age); SELECT SCOPE_IDENTITY()",
-                    param: new { name = person.name, lastname = person.lastname, age = person.age },
-                    transaction: Transaction
-                    );
+            logger.LogTrace($"start methode {nameof(CreatePerson)} in class {nameof(PersonRepository)}");
 
-                //person.Id = await Connection.InsertAsync(person);
-                return person;
-            }
-            catch (Exception ex)
-            {
-                string m = ex.ToString();
-                throw;
-            }
+            person.id = Connection.ExecuteScalar<int>(
+                "INSERT INTO Persons(name, lastname,age) VALUES(@name,@lastname,@age); SELECT SCOPE_IDENTITY()",
+                param: new { name = person.name, lastname = person.lastname, age = person.age },
+                transaction: Transaction
+                );
+
+            logger.LogTrace($"end methode {nameof(CreatePerson)} in class {nameof(PersonRepository)}");
+
+            return person;
+
         }
 
         public Person GetPersonById(int personId)
         {
-            try
-            {
-                var person =  Connection.Query<Person>(
-                              "SELECT * FROM Persons WHERE id = @id",
-                              param: new { id = personId },
-                              transaction: Transaction
-                          ).FirstOrDefault();
+            var person = Connection.Query<Person>(
+                                "SELECT * FROM Persons WHERE id = @id",
+                                param: new { id = personId },
+                                transaction: Transaction
+                            ).FirstOrDefault();
 
-                return person;
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
+            return person;
         }
 
         public ICollection<Person> GetPersons()

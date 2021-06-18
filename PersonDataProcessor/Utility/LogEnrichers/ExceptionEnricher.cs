@@ -15,7 +15,7 @@ namespace PersonDataProcessor.Utility.LogEnrichers
             if (logEvent.Exception != null)
             {
                 //some actions
-                propertyFactory.CreateProperty("ExtraExceptionDetail","");
+                propertyFactory.CreateProperty("ExceptionDetails", logEvent.Exception);
             }
         }
     }

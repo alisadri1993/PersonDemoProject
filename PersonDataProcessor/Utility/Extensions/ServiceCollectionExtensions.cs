@@ -5,9 +5,9 @@ using Microsoft.Extensions.Hosting;
 using PersonDataProcessor.DAL;
 using PersonDataProcessor.Service;
 
-namespace PersonDataProcessor.Utility
+namespace PersonDataProcessor.Utility.Extensions
 {
-    public static class PersonDataServiceExtensions
+    public static class ServiceCollectionExtensions
     {
         public static void AddCustomeServices(this IServiceCollection services, HostBuilderContext hostContext)
         {
@@ -40,6 +40,8 @@ namespace PersonDataProcessor.Utility
             services.RegisterQueueServices(hostContext, AppSetting.RabbitMqConfiguration);
 
             services.AddAutoMapper(typeof(Program));
+
+            ServiceLocator.SetLocatorProvider(services.BuildServiceProvider());
         }
     }
 }

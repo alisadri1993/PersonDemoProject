@@ -1,9 +1,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using PersonDataProcessor.Utility;
+using PersonDataProcessor.Utility.Extensions;
 using PersonDataProcessor.Utility.LogEnrichers;
 using Serilog;
-using Serilog.Exceptions;
 
 namespace PersonDataProcessor
 {
@@ -20,8 +19,7 @@ namespace PersonDataProcessor
 
                 Log.Logger = new LoggerConfiguration()
                     .ReadFrom.Configuration(configuration)
-                    .Enrich.FromLogContext()
-                    .Enrich.WithExceptionDetails()
+                    .Enrich.With<ExceptionEnricher>()
                     .Enrich.With<ApplicationDetailsEnricher>()
                     .CreateLogger();
 
