@@ -11,7 +11,5 @@ namespace PersonDataProcessor.DAL.Repositories
         {
             Transaction = transaction;
         }
-
-
     }
 }

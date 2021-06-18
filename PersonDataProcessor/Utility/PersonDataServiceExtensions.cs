@@ -13,7 +13,6 @@ namespace PersonDataProcessor.Utility
         {
             Setting AppSetting = new Setting();
             var sqlConnection = hostContext.Configuration.GetSection("ConnectionStrings").GetValue<string>("DefaultConnectionString");
-            var x = hostContext.Configuration.GetSection("RedisConfig");
             AppSetting.RedisConfiguration = hostContext.Configuration.GetSection(nameof(RedisConfig)).Get<RedisConfig>();
             AppSetting.RabbitMqConfiguration = hostContext.Configuration.GetSection(nameof(RabbitMqConfig)).Get<RabbitMqConfig>();
 

@@ -43,35 +43,12 @@ namespace PersonDataProcessor
                 x.PrefetchCount = rabbitMqConfig.PrefetchCount;
             });
 
-
-            await personAddedEventHandler.Ready;
-
-
-            //var bus = Bus.Factory.CreateUsingRabbitMq(sbc =>
-            //{
-            //    sbc.Host(rabbitMqConfig.Host, h => 
-            //    {
-            //        h.Username(rabbitMqConfig.Username);
-            //        h.Password(rabbitMqConfig.Password);
-            //    });
-
-            //    sbc.ReceiveEndpoint(rabbitMqConfig.PersonAddedReceiveEndpoint, e => 
-            //    {
-            //        e.Consumer<PersonAddedConsumer>(serviceProvider);
-            //    });
-            //});
-
-            //bus.Start();
+            await personAddedEventHandler.Ready;           
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                _logger.LogInformation("Worker running at: {time}", "");
-
-
-                await Task.Delay(1000, stoppingToken);
+                
             }
-
-            //bus.Stop();
         }
     }
 }

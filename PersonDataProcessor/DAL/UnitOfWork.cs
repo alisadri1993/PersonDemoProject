@@ -3,7 +3,6 @@ using Microsoft.Extensions.Options;
 using PersonDataProcessor.DAL.Repositories;
 using PersonDataProcessor.Utility;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 

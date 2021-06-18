@@ -1,18 +1,9 @@
-using EasyCaching.Core.Configurations;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PersonDataProcessor.DAL;
-using PersonDataProcessor.DAL.Repositories;
-using PersonDataProcessor.Service;
 using PersonDataProcessor.Utility;
-using PersonDataProcessor.Utility.Exceptions;
+using PersonDataProcessor.Utility.LogEnrichers;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+using Serilog.Exceptions;
 
 namespace PersonDataProcessor
 {
@@ -29,7 +20,9 @@ namespace PersonDataProcessor
 
                 Log.Logger = new LoggerConfiguration()
                     .ReadFrom.Configuration(configuration)
-                    .Enrich.With<ExceptionEnricher>()
+                    .Enrich.FromLogContext()
+                    .Enrich.WithExceptionDetails()
+                    .Enrich.With<ApplicationDetailsEnricher>()
                     .CreateLogger();
 
                 CreateHostBuilder(args).Build().Run();

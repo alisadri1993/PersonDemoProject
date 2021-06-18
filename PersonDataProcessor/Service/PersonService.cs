@@ -7,9 +7,6 @@ using PersonDataProcessor.Model;
 using PersonDataProcessor.Utility.Exceptions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PersonDataProcessor.Service
 {
@@ -30,30 +27,32 @@ namespace PersonDataProcessor.Service
             this.cachingProvider = cachingProvider;
             this.mapper = mapper;
         }
-     
+
         public PersonData LoadPersonById(int personId)
         {
             Person person = cachingProvider.Get<Person>(nameof(Person) + "_" + personId).Value;
             if (person is null)
             {
-                person =  unitOfWork.PersonRepository
+                person = unitOfWork.PersonRepository
                                          .GetPersonById(personId);
             }
             return mapper.Map<PersonData>(person);
         }
-      
+
         public PersonData SavePerson(PersonData personDto)
         {
 
             Person person = mapper.Map<Person>(personDto);
-            _logger.LogWarning(nameof(SavePerson) + " started {person}", person.ToString());
+            _logger.LogInformation(nameof(SavePerson) + " started {person}", person.ToString());
 
             if (person.age < 13)
                 throw new DomainException("امکان افزودن افراد زیر 13 سال وجود ندارد", ExceptionCode.IvalidPersonAgeRange);
 
-            var addedperson =  unitOfWork.PersonRepository.CreatePerson(person);
+            var addedperson = unitOfWork.PersonRepository.CreatePerson(person);
             unitOfWork.commit();
             cachingProvider.Set<Person>(nameof(Person) + "_" + addedperson.id, person, TimeSpan.FromMinutes(1));
+            _logger.LogInformation($"{person} added in cach(redis)", person.ToString());
+
             return mapper.Map<PersonData>(addedperson);
         }
 

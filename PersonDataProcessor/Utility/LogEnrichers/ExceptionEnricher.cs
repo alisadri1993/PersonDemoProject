@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PersonDataProcessor.Utility.Exceptions
+namespace PersonDataProcessor.Utility.LogEnrichers
 {
     public class ExceptionEnricher : ILogEventEnricher
     {

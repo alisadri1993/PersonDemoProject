@@ -1,11 +1,9 @@
 ﻿using Contract;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using PersonDataProcessor.Model;
 using PersonDataProcessor.Service;
 using System;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace PersonDataProcessor.Events
 {
@@ -26,10 +24,11 @@ namespace PersonDataProcessor.Events
 
         public async Task Consume(ConsumeContext<PersonData> context)
         {
-            logger.LogInformation($"person data recieaved to consumer ==> {context.Message}");
+
+            logger.LogTrace($"person data recieaved to consumer ==> {context.Message}");
             PersonData personData = context.Message;
             personData = personService.SavePerson(personData);
-            logger.LogInformation($"person data processed end  in consumer class ==> {personData.ToString()}");
+            logger.LogTrace($"person data processed end  in consumer class ==> {personData.ToString()}");
 
             await Task.CompletedTask;
         }
