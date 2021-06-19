@@ -1,16 +1,7 @@
-﻿using Autofac;
-using GreenPipes;
-using MassTransit;
+﻿using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using PersonDataProcessor.Events;
-using PersonDataProcessor.Utility.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PersonDataProcessor.Utility.Extensions
 {

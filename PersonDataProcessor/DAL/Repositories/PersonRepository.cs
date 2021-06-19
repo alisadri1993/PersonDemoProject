@@ -1,6 +1,4 @@
 ﻿using Dapper;
-using Dapper.Contrib.Extensions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using PersonDataProcessor.Model;
 using PersonDataProcessor.Utility.Extensions;
@@ -8,8 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PersonDataProcessor.DAL.Repositories
 {
