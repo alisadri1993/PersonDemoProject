@@ -6,7 +6,7 @@ using System.Threading;
 namespace PersonProvider
 {
     class Program
-    {
+    {  
         static void Main(string[] args)
         {
             var bus = Bus.Factory.CreateUsingRabbitMq(config =>
