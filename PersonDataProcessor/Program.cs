@@ -12,7 +12,7 @@ namespace PersonDataProcessor
         public static void Main(string[] args)
         {
             try
-            {
+            {  
                 var configuration = new ConfigurationBuilder()
                     .AddJsonFile("appsettings.json", true, true)
                     .Build();
