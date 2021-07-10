@@ -19,7 +19,7 @@ namespace PersonProvider
 
             });
 
-            bus.Start();
+            bus.Start();  
 
             Console.WriteLine("Publishing message");
 
