@@ -22,11 +22,7 @@ namespace PersonProvider
             bus.Start();  
 
             Console.WriteLine("Publishing message");
-
             var sendEndpoint = bus.GetSendEndpoint(new Uri("rabbitmq://localhost//PersonAddedQueue")).Result;
-
-
-
             var person = new PersonData 
             {
                 name = "Ali",
